@@ -1,13 +1,8 @@
 from PIL import Image
 import numpy as np
+import pandas as pd
 
 import os
-
-import pandas as pd
-# df=pd.read_csv('myfile.csv', sep=',',header=None)
-# df.values
-# array([[ 1. ,  2. ,  3. ],
-#        [ 4. ,  5.5,  6. ]])
 
 def load_image(path_to_image):
 	return np.array(Image.open(path_to_image))
@@ -25,3 +20,8 @@ def create_dir(path):
 
 def save_image_to_csv(image, path_to_image):
 	np.savetxt(path_to_image + '.csv', image, delimiter=',')
+	
+
+def load_image_from_csv(path_to_image):
+	image_array = pd.read_csv(path_to_image, sep=',', header=None)
+	return np.array(image_array)
