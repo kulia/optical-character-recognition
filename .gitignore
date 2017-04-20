@@ -1,3 +1,5 @@
+*.csv
+
 .idea/
 tasks.pdf
 # Created by https://www.gitignore.io/api/osx,macos,matlab,python,pycharm
