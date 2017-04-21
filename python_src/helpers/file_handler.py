@@ -7,6 +7,15 @@ import os
 
 debug = True
 
+
+class Path:
+	def __init__(self, database='../database/'):
+		self.database = database
+		self.char74k = database + 'chars74k-lite/'
+		self.char74k_augmented = database + 'char74k/'
+		create_dir(self.char74k_augmented)
+		
+
 def load_image(path_to_image):
 	return np.array(Image.open(path_to_image))
 
@@ -41,9 +50,7 @@ def load_image_array_from_csv(path_to_image_array):
 	with open(path_to_image_array, 'r') as f:
 		index = 0
 		for line in f.readlines():
-			line = line.strip('\n')
-			line_array = line.split(',')
-			image_array = np.append(image_array, [float(x) for x in line_array])
+			image_array = np.append(image_array, [float(x) for x in line.strip('\n').split(',')])
 			
 			if debug and not index%1000:
 				print('Lines of database loaded: ', index)

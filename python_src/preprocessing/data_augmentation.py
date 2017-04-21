@@ -10,27 +10,30 @@ from os import listdir
 import os
 
 def augment_chars74k_database():
-	path_to_database = '../database/'
-	path_to_image_folder = path_to_database + 'chars74k-lite/{}/'
+	# path_to_database = '../database/'
+	# path_to_image_folder = path_to_database + 'chars74k-lite/{}/'
+	#
+	train_database_name = 'train'
+	target_database_name = 'target'
 	
-	database_name = 'char74k-lite-augmented'
 	
-	file_handler.delete_file(path_to_database + database_name + '.csv')
+	path = file_handler.Path()
+	
+	file_handler.delete_file(path.char74k_augmented + train_database_name + '.csv')
+	file_handler.delete_file(path.char74k_augmented + target_database_name + '.csv')
 	
 	for letter in alphabet:
 		print('Letter: ', letter)
-		for index in np.arange(len(listdir(path_to_image_folder.format(letter)))):
-			letter_filename = '{}_{}.jpg'.format(letter, index)
-			path_to_image = path_to_image_folder.format(letter) + letter_filename
+		for index in np.arange(len(listdir(path.char74k + '{}/'.format(letter)))):
+			letter_filename = '{}/{}_{}.jpg'.format(letter, letter, index)
+			path_to_image = path.char74k + letter_filename
 			
 			image = file_handler.load_image(path_to_image)
-			
 			image = standardized_augmentation(image)
 			
 			image_array = image_helpers.image_matrix_to_array(image)
 			
-			file_handler.save_image_to_csv(image_array, path_to_database + database_name)
-			
+			file_handler.save_image_to_csv(image_array, path.char74k_augmented + train_database_name)
 			
 def standardized_augmentation(image):
 	image = normalize(image)
