@@ -53,7 +53,7 @@ def load_image_array_from_csv(path_to_image_array):
 			
 			if debug and not index%1000:
 				print('Lines of database loaded: ', index)
-				if index == 2000:break
+				# if index == 2000:break
 				
 			index += 1
 			

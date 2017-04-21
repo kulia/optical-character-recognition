@@ -10,7 +10,7 @@ path_to_image = '../database/chars74k-lite/{}/{}_{}.jpg'
 path_to_database = '../database/chars74k-lite-augmented/'
 
 def select_samples(train, target, number_of_samples):
-	indeces = np.random.permutation(2000)[:number_of_samples]
+	indeces = np.random.permutation(len(target))[:number_of_samples]
 	return train[indeces], target[indeces], indeces
 
 if __name__ == '__main__':
