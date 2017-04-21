@@ -69,7 +69,9 @@ def load_target_to_array(path_to_target):
 	target = np.array([])
 	with open(path_to_target, 'r+') as f:
 		for line in f.readlines():
-			target = np.append(target, [x for x in line.strip('\n').split(',')[:-1]])
+			target = np.append(target, [x for x in line.strip('\n').split(',')])
+			if target[-1] == ',':
+				target = target[:-1]
 	
 	return target
 

@@ -20,17 +20,14 @@ def plot_pca(pca_results, target):
 	colors = [(x * 1.0 / number_of_colors, 0.5*(np.cos(2*np.pi*x/number_of_colors)+1), 0.5*(np.sin(2*np.pi*x/number_of_colors)+1)) for x in range(number_of_colors)]
 	
 	i = 0
-	
-	print(len(pca_results))
-	print(len(target))
-	
+
 	for elements in pca_results:
-		plt.scatter(elements[0], elements[1], color=colors[chr_to_index(target[i])])
+		plt.scatter(elements[0], elements[1], color=colors[chr_to_index(target[i])], marker="$"+target[i].strip('\'')+"$")
 		i += 1
 	
-	for i in range(len(colors)):
-		plt.scatter(None, None, label=chr(i + 97), c=colors[i], alpha=1)
-		plt.legend()
+	# for i in range(len(colors)):
+	# 	plt.scatter(None, None, label=chr(i + 97), c=colors[i], alpha=1)
+	# 	plt.legend()
 		
 def str_to_int(string):
 	string = string.strip('\'')

@@ -38,8 +38,8 @@ def augment_chars74k_database():
 			
 def standardized_augmentation(image):
 	image = normalize(image)
-	image = image_helpers.convert_to_sensor_values(image)
-	image = image_to_bool(image)
+	# image = image_helpers.convert_to_sensor_values(image)
+	# image = image_to_bool(image)
 	return image
 	
 	
@@ -72,3 +72,8 @@ def median_filter(image_normalized, filter_width=3):
 
 def image_to_bool(image_normalized, threshold=0.5):
 	return (image_normalized >= threshold).astype(int)
+
+
+def select_samples(train, target, number_of_samples):
+	indeces = np.random.permutation(len(target))[:number_of_samples]
+	return train[indeces], target[indeces], indeces
