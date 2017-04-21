@@ -2,7 +2,7 @@ import numpy as np
 import scipy.signal
  
 import helpers.file_handler as file_handler
-import helpers.image as image_helpers
+import helpers.visualize as image_helpers
 
 from string import ascii_lowercase as alphabet
 from os import listdir
@@ -33,13 +33,13 @@ def augment_chars74k_database():
 			
 			image_array = image_helpers.image_matrix_to_array(image)
 			
-			file_handler.save_image_to_csv(image_array, path.char74k_augmented + train_database_name)
+			file_handler.save_array_to_csv(image_array, path.char74k_augmented + train_database_name)
 			file_handler.save_target_to_csv(path.char74k_augmented + target_database_name, letter)
 			
 def standardized_augmentation(image):
 	image = normalize(image)
-	# image = image_helpers.convert_to_sensor_values(image)
-	# image = image_to_bool(image)
+	image = image_helpers.convert_to_sensor_values(image)
+	image = image_to_bool(image)
 	return image
 	
 	
@@ -71,4 +71,4 @@ def median_filter(image_normalized, filter_width=3):
 
 
 def image_to_bool(image_normalized, threshold=0.5):
-	return image_normalized >= threshold
+	return (image_normalized >= threshold).astype(int)

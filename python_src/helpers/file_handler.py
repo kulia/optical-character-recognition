@@ -35,12 +35,10 @@ def delete_file(path):
 		os.remove(path)
 
 
-def save_image_to_csv(image_array, path_to_image):
-	# print(type(image_array))
-	with open(path_to_image + '.csv', 'a+') as f:
-		f.write(format_array_to_csv(image_array))
+def save_array_to_csv(array, path):
+	with open(path + '.csv', 'a+') as f:
+		f.write(format_array_to_csv(array))
 		f.write('\n')
-		
 
 
 def load_image_array_from_csv(path_to_image_array):
@@ -48,10 +46,15 @@ def load_image_array_from_csv(path_to_image_array):
 	with open(path_to_image_array, 'r') as f:
 		index = 0
 		for line in f.readlines():
-			image_array = np.append(image_array, [float(x) for x in line.strip('\n').split(',')])
+			if len(image_array) == 0:
+				image_array = np.array([float(x) for x in line.strip('\n').split(',')])
+			else:
+				image_array = np.vstack((image_array, [float(x) for x in line.strip('\n').split(',')]))
 			
 			if debug and not index%1000:
 				print('Lines of database loaded: ', index)
+				if index == 2000:break
+				
 			index += 1
 			
 	return image_array
@@ -64,7 +67,7 @@ def save_target_to_csv(path_to_target, target):
 
 def load_target_to_array(path_to_target):
 	target = np.array([])
-	with open(path_to_target, 'r') as f:
+	with open(path_to_target, 'r+') as f:
 		for line in f.readlines():
 			target = np.append(target, [x for x in line.strip('\n').split(',')[:-1]])
 	
@@ -72,4 +75,6 @@ def load_target_to_array(path_to_target):
 
 
 def format_array_to_csv(array):
-	return str(array)[1:-1].replace(' ', '')
+	# print(str(array)[1:-1].replace(' ', ''))
+	array = np.array(array)
+	return str(array.tolist())[1:-1].replace(' ', '')

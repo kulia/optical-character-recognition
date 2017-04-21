@@ -1,83 +1,42 @@
 import numpy as np
 
-import helpers.image as image_helpers
+import helpers.visualize as image_helpers
 import preprocessing.data_augmentation as data_augmentation
+import feature_engineering.separation as fe
 import matplotlib.pyplot as plt
-
 import helpers.file_handler as file_handler
-
-from sklearn.decomposition import PCA
-
-from string import ascii_lowercase as alphabet
 
 path_to_image = '../database/chars74k-lite/{}/{}_{}.jpg'
 path_to_database = '../database/chars74k-lite-augmented/'
 
-def pca_analysis(image, n_components=3):
-	image_pca = PCA(n_components=n_components)
-	image_pca.fit_transform(image)
-	return image_pca.explained_variance_ratio_
-	
+def select_samples(train, target, number_of_samples):
+	indeces = np.random.permutation(2000)[:number_of_samples]
+	return train[indeces], target[indeces], indeces
+
 if __name__ == '__main__':
 	path = file_handler.Path()
 	
+	data_augmentation.augment_chars74k_database()
 	
-	# data_augmentation.augment_chars74k_database()
-	
-	# a = file_handler.load_image_array_from_csv(path.char74k_augmented + 'train.csv')
 	target = file_handler.load_target_to_array(path.char74k_augmented + 'target.csv')
+	train = file_handler.load_image_array_from_csv(path.char74k_augmented + 'train.csv')
 	
-	print(target[-10:])
+	train, target, _ = select_samples(train, target, 100)
 	
-	# print(a[0:5])
-	
-	#
-	# alphabet_array = np.array([])
-	# target_array = ''
-	# for letter in alphabet:
-	# 	if 0 == alphabet_array.size:
-	# 		alphabet_array = file_handler.load_all_characters(path_to_database, letter)
-	# 	else:
-	# 		alphabet_array = np.append(alphabet_array, file_handler.load_all_characters(path_to_database, letter))
-	#
-	# 	target_array += letter
-	#
-	# print('f', alphabet_array.shape)
-	
-	
-	# print('f', alphabet_array[-1])
+	path_tmp = file_handler.Path('../database/tmp/')
+	file_handler.delete_file(path_tmp.char74k_augmented + 'target.csv')
+	file_handler.delete_file(path_tmp.char74k_augmented + 'train.csv')
+	file_handler.save_array_to_csv(target, path_tmp.char74k_augmented + 'target')
+	for line in train:
+		# print(line)
+		file_handler.save_array_to_csv(line, path_tmp.char74k_augmented + 'train')
 
+	
+
+	pca, pca_results = fe.pca_analysis(train)
+
+	print(pca.explained_variance_ratio_)
+	
 	# plt.figure()
-	#
-	# image_helpers.show_image(alphabet_array[0])
-	#
-	#
-	# plt.figure()
-	# image_helpers.show_image(alphabet_array[-1])
-			
-		# print(alphabet_array)
-	
-		
-	
-	# a_array = file_handler.load_all_characters('../database/chars74k-lite-augmented/', 'a')
-	# z_array = file_handler.load_all_characters('../database/chars74k-lite-augmented/', 'c')
-	#
-	# fig = plt.figure()
-	# i = 0
-	# for a in a_array:
-	# 	# print('a: ', pca_analysis(a).shape)
-	# 	# plt.scatter(pca_analysis(a)[0], pca_analysis(a)[1], c='r')
-	# 	plt.scatter(i, np.amax(pca_analysis(a)), c='r')
-	# 	i+=1
-	#
-	# i=0
-	# # fig = plt.figure()
-	# for z in z_array:
-	# 	# print('z: ', pca_analysis(z))
-	# 	# image_helpers.show_image(pca_analysis(z))
-	# 	# plt.scatter(pca_analysis(z)[0], pca_analysis(z)[1], c='b')
-	# 	plt.scatter(i, np.amax(pca_analysis(z)), c='b')
-	# 	# print(np.amax(pca_analysis(z)))
-	# 	i += 1
-	
-	plt.show()
+	# image_helpers.plot_pca(pca_results, target)
+	# plt.show()
