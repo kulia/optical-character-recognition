@@ -75,6 +75,5 @@ def load_target_to_array(path_to_target):
 
 
 def format_array_to_csv(array):
-	# print(str(array)[1:-1].replace(' ', ''))
 	array = np.array(array)
 	return str(array.tolist())[1:-1].replace(' ', '')
