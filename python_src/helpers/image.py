@@ -1,5 +1,4 @@
 import matplotlib.pyplot as plt
-
 	
 def show_image(image, colorbar=True):
 	cax = plt.imshow(image, cmap=plt.get_cmap('BrBG'))

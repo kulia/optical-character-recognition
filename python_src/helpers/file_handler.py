@@ -22,6 +22,9 @@ def create_dir(path):
 def save_image_to_csv(image, path_to_image):
 	np.savetxt(path_to_image + '.csv', image, delimiter=',')
 	
+	
+# def save_all_images_to_one_csv(load_):
+	
 
 def load_image_from_csv(path_to_image):
 	image_array = pd.read_csv(path_to_image, sep=',', header=None)
@@ -31,6 +34,7 @@ def load_all_characters(path_to_database, character):
 	path_to_character = path_to_database + '{}/'.format(character)
 	
 	character_array = np.array([])
+	
 	for filename in listdir(path_to_character):
 		if 0 == character_array.size:
 			character_array = np.array([load_image_from_csv(path_to_character + filename)])
@@ -38,3 +42,6 @@ def load_all_characters(path_to_database, character):
 			character_array = np.vstack((character_array, [load_image_from_csv(path_to_character + filename)]))
 		
 	return character_array
+#
+# def load_all_characters_to_panda(path_to_database):
+#
