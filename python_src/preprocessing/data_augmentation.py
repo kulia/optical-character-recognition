@@ -34,6 +34,7 @@ def augment_chars74k_database():
 			image_array = image_helpers.image_matrix_to_array(image)
 			
 			file_handler.save_image_to_csv(image_array, path.char74k_augmented + train_database_name)
+			file_handler.save_target_to_csv(path.char74k_augmented + target_database_name, letter)
 			
 def standardized_augmentation(image):
 	image = normalize(image)

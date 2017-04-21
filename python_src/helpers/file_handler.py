@@ -12,12 +12,13 @@ class Path:
 	def __init__(self, database='../database/'):
 		self.database = database
 		self.char74k = database + 'chars74k-lite/'
-		self.char74k_augmented = database + 'char74k/'
+		self.char74k_augmented = database + 'char74k-augmented/'
 		create_dir(self.char74k_augmented)
 		
 
 def load_image(path_to_image):
 	return np.array(Image.open(path_to_image))
+
 
 def save_image(image, path_to_image):
 	image = Image.fromarray(image)
@@ -39,10 +40,7 @@ def save_image_to_csv(image_array, path_to_image):
 	with open(path_to_image + '.csv', 'a+') as f:
 		f.write(format_array_to_csv(image_array))
 		f.write('\n')
-
-
-def format_array_to_csv(array):
-	return str(array)[1:-1].replace(' ', '')
+		
 
 
 def load_image_array_from_csv(path_to_image_array):
@@ -57,3 +55,21 @@ def load_image_array_from_csv(path_to_image_array):
 			index += 1
 			
 	return image_array
+
+
+def save_target_to_csv(path_to_target, target):
+	with open(path_to_target + '.csv', 'a+') as f:
+		f.write(target + ',')
+
+
+def load_target_to_array(path_to_target):
+	target = np.array([])
+	with open(path_to_target, 'r') as f:
+		for line in f.readlines():
+			target = np.append(target, [x for x in line.strip('\n').split(',')[:-1]])
+	
+	return target
+
+
+def format_array_to_csv(array):
+	return str(array)[1:-1].replace(' ', '')
