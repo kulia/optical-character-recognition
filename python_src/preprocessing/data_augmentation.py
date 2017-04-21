@@ -1,39 +1,41 @@
 import numpy as np
 import scipy.signal
-import helpers.image as image_helpers
+ 
 import helpers.file_handler as file_handler
+import helpers.image as image_helpers
 
-from string import ascii_lowercase
+from string import ascii_lowercase as alphabet
 from os import listdir
+
+import os
 
 def augment_chars74k_database():
 	path_to_database = '../database/'
 	path_to_image_folder = path_to_database + 'chars74k-lite/{}/'
 	
-	path_to_destination_database = path_to_database + 'chars74k-lite-augmented/'
+	database_name = 'char74k-lite-augmented'
 	
-	file_handler.create_dir(path_to_destination_database)
+	file_handler.delete_file(path_to_database + database_name + '.csv')
 	
-	for letter in ascii_lowercase:
+	for letter in alphabet:
 		print('Letter: ', letter)
 		for index in np.arange(len(listdir(path_to_image_folder.format(letter)))):
 			letter_filename = '{}_{}.jpg'.format(letter, index)
 			path_to_image = path_to_image_folder.format(letter) + letter_filename
 			
-			image_array = file_handler.load_image(path_to_image)
-			image_array = standardized_augmentation(image_array)
+			image = file_handler.load_image(path_to_image)
 			
-			path_to_destination_folder = path_to_destination_database + '{}/'.format(letter)
-			path_to_destination_image = path_to_destination_folder + '{}_{}'.format(letter, index)
+			image = standardized_augmentation(image)
 			
-			file_handler.create_dir(path_to_destination_folder)
-			file_handler.save_image_to_csv(image_array, path_to_destination_image)
+			image_array = image_helpers.image_matrix_to_array(image)
+			
+			file_handler.save_image_to_csv(image_array, path_to_database + database_name)
 			
 			
 def standardized_augmentation(image):
 	image = normalize(image)
-	image = image_helpers.convert_to_sensor_values(image)
-	image = tanh(image)
+	# image = image_helpers.convert_to_sensor_values(image)
+	# image = image_to_bool(image)
 	return image
 	
 	
