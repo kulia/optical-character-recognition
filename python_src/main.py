@@ -4,12 +4,15 @@ import time
 import helpers.file_handler as file_handler
 import OCR_nearest_neighbors as orc_nn
 
+
 def select_samples(train, target, number_of_samples):
 	indeces = np.random.permutation(len(train))[:number_of_samples]
 	return train[indeces], target[indeces], indeces
 
+
 def randomize_data_indices(X_data, Y_data):
 	return select_samples(X_data, Y_data, len(X_data))
+
 
 def data_to_train_and_test(X_data, Y_data, ratio=0.2):
 	data_X, data_Y, _ = randomize_data_indices(X_data, Y_data)

@@ -1,12 +1,28 @@
 import numpy as np
 import scipy.signal
+from skimage.feature import hog
 
 import helpers.visualize as image_helpers
-			
+							
 def standardized_augmentation(data):
-	data = image_helpers.convert_to_sensor_values(data)
-	data = image_to_bool(data)
+	# data = image_helpers.convert_to_sensor_values(data)
+	# data = histogram_of_oriented_gradients(data)
 	return data
+	
+def histogram_of_oriented_gradients(data_images):
+	images = np.array([])
+	for data_image in data_images:
+		if len(data_image) == 400:
+			data_image = data_image.reshape((20, 20))
+		else:
+			print('Wrong size', data_image.shape)
+		
+		fd, data_image = hog(data_image, orientations=8, pixels_per_cell=(16, 16),
+		                    cells_per_block=(1, 1), visualise=True)
+		
+		images = np.append(images, data_image)
+		
+	return np.array(images).flatten()
 	
 	
 def normalize(data):
