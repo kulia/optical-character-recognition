@@ -9,10 +9,7 @@ from os import listdir
 
 import os
 
-def augment_chars74k_database():
-	# path_to_database = '../database/'
-	# path_to_image_folder = path_to_database + 'chars74k-lite/{}/'
-	#
+def generate_chars74k_csv_database():
 	train_database_name = 'train'
 	target_database_name = 'target'
 	
@@ -70,7 +67,7 @@ def median_filter(image_normalized, filter_width=3):
 	return scipy.signal.medfilt(image_normalized, filter_width)
 
 
-def image_to_bool(image_normalized, threshold=0.5):
+def image_to_bool(image_normalized, threshold=0.2):
 	return (image_normalized >= threshold).astype(int)
 
 

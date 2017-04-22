@@ -5,6 +5,7 @@ import preprocessing.data_augmentation as data_augmentation
 import feature_engineering.separation as fe
 import matplotlib.pyplot as plt
 import helpers.file_handler as file_handler
+from sklearn.decomposition import PCA
 
 path_to_image = '../database/chars74k-lite/{}/{}_{}.jpg'
 path_to_database = '../database/chars74k-lite-augmented/'
@@ -21,8 +22,9 @@ if __name__ == '__main__':
 	format_database = True
 	
 	case_list = ['agument_data', 'original', 'pick_and_save_subset', 'load_subset']
-	# case_list = case_list[0]
+	case_list = case_list[-1]
 	
+	# For working while dev
 	if 'agument_data' in case_list:
 		data_augmentation.generate_chars74k_csv_database()
 	if 'original' in case_list or 'pick_and_save_subset' in case_list:
@@ -42,9 +44,27 @@ if __name__ == '__main__':
 		train = file_handler.load_image_array_from_csv(path_tmp.char74k_augmented + 'train.csv')
 	
 	t0 = time.time()
-	print('--- iteration {} ---'.format(i))
-	pca, pca_results = fe.pca_analysis(train[1:], n_components=50)
-	print('time: ', time.time() - t0)
 	
-	print('Finished')
-	plt.show()
+	test = train[0:200]
+	test_target = target[0:200]
+	
+	train = train[200:]
+	target = target[200:]
+	
+	for j in range(1, 300):
+		pca = PCA(n_components=20)
+		pca_model = pca.fit(train)
+		pca_train = pca_model.transform(train)
+		pca_test = pca_model.transform(test)
+		
+		knn_model = fe.find_nearest_neighbor(pca_train, target, n_neighbors=j)
+		prediction = fe.predict(pca_test, knn_model)
+		
+		error_counter = 0
+		for i in range(len(prediction)):
+			if prediction[i] != test_target[i]:
+				error_counter += 1
+		
+		print(j, 'Error: ', 100 * error_counter / len(test_target), '%')
+		
+	print('time: ', time.time() - t0, 's')

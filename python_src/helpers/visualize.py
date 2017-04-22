@@ -24,10 +24,6 @@ def plot_pca(pca_results, target):
 	for elements in pca_results:
 		plt.scatter(elements[0], elements[1], color=colors[chr_to_index(target[i])], marker="$"+target[i].strip('\'')+"$")
 		i += 1
-	
-	# for i in range(len(colors)):
-	# 	plt.scatter(None, None, label=chr(i + 97), c=colors[i], alpha=1)
-	# 	plt.legend()
 		
 def str_to_int(string):
 	string = string.strip('\'')
