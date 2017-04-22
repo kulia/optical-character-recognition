@@ -18,7 +18,7 @@ def image_matrix_to_array(image):
 def plot_pca(pca_results, target):
 	number_of_colors = 26
 	colors = [(x * 1.0 / number_of_colors, 0.5*(np.cos(2*np.pi*x/number_of_colors)+1), 0.5*(np.sin(2*np.pi*x/number_of_colors)+1)) for x in range(number_of_colors)]
-	
+
 	i = 0
 
 	for elements in pca_results:
