@@ -2,6 +2,12 @@ from PIL import Image
 import numpy as np
 import pandas as pd
 
+import helpers.visualize as image_helpers
+
+from string import ascii_lowercase as alphabet
+
+import preprocessing.data_augmentation as da
+
 from os import listdir
 import os
 
@@ -78,3 +84,27 @@ def load_target_to_array(path_to_target):
 def format_array_to_csv(array):
 	array = np.array(array)
 	return str(array.tolist())[1:-1].replace(' ', '')
+
+
+def generate_chars74k_csv_database():
+	train_database_name = 'train'
+	target_database_name = 'target'
+	
+	path = Path()
+	
+	delete_file(path.char74k_augmented + train_database_name + '.csv')
+	delete_file(path.char74k_augmented + target_database_name + '.csv')
+	
+	for letter in alphabet:
+		print('Letter: ', letter)
+		for index in np.arange(len(listdir(path.char74k + '{}/'.format(letter)))):
+			letter_filename = '{}/{}_{}.jpg'.format(letter, letter, index)
+			path_to_image = path.char74k + letter_filename
+			
+			image = load_image(path_to_image)
+			image = da.normalize(image)
+			
+			image_array = image_helpers.image_matrix_to_array(image)
+			
+			save_array_to_csv(image_array, path.char74k_augmented + train_database_name)
+			save_target_to_csv(path.char74k_augmented + target_database_name, letter)

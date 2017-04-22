@@ -1,42 +1,16 @@
 import numpy as np
 import scipy.signal
- 
-import helpers.file_handler as file_handler
+
 import helpers.visualize as image_helpers
 
 from string import ascii_lowercase as alphabet
 from os import listdir
 
 import os
-
-def generate_chars74k_csv_database():
-	train_database_name = 'train'
-	target_database_name = 'target'
-	
-	
-	path = file_handler.Path()
-	
-	file_handler.delete_file(path.char74k_augmented + train_database_name + '.csv')
-	file_handler.delete_file(path.char74k_augmented + target_database_name + '.csv')
-	
-	for letter in alphabet:
-		print('Letter: ', letter)
-		for index in np.arange(len(listdir(path.char74k + '{}/'.format(letter)))):
-			letter_filename = '{}/{}_{}.jpg'.format(letter, letter, index)
-			path_to_image = path.char74k + letter_filename
-			
-			image = file_handler.load_image(path_to_image)
-			image = standardized_augmentation(image)
-			
-			image_array = image_helpers.image_matrix_to_array(image)
-			
-			file_handler.save_array_to_csv(image_array, path.char74k_augmented + train_database_name)
-			file_handler.save_target_to_csv(path.char74k_augmented + target_database_name, letter)
 			
 def standardized_augmentation(image):
-	# image = normalize(image)
-	# image = image_helpers.convert_to_sensor_values(image)
-	# image = image_to_bool(image)
+	image = image_helpers.convert_to_sensor_values(image)
+	image = image_to_bool(image)
 	return image
 	
 	
