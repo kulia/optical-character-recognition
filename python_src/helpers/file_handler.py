@@ -1,12 +1,8 @@
 from PIL import Image
 import numpy as np
-import pandas as pd
-
 import helpers.visualize as image_helpers
-
 from string import ascii_lowercase as alphabet
-
-import preprocessing.data_augmentation as da
+import OCR_nearest_neighbors.preprocessing as da
 
 from os import listdir
 import os
