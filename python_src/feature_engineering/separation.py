@@ -18,6 +18,7 @@ def tsne(pca_results):
 
 def find_nearest_neighbor(data, target, n_neighbors=2):
 	k_nearest_neighbor_model = KNeighborsClassifier(n_neighbors=n_neighbors)
+	# print(data.shape, target.shape)
 	return k_nearest_neighbor_model.fit(data, target)
 
 def predict(unknown, k_nearest_neighbor_model):

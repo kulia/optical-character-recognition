@@ -34,9 +34,9 @@ def generate_chars74k_csv_database():
 			file_handler.save_target_to_csv(path.char74k_augmented + target_database_name, letter)
 			
 def standardized_augmentation(image):
-	image = normalize(image)
-	image = image_helpers.convert_to_sensor_values(image)
-	image = image_to_bool(image)
+	# image = normalize(image)
+	# image = image_helpers.convert_to_sensor_values(image)
+	# image = image_to_bool(image)
 	return image
 	
 	

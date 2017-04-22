@@ -52,8 +52,7 @@ def load_image_array_from_csv(path_to_image_array):
 				image_array = np.vstack((image_array, [float(x) for x in line.strip('\n').split(',')]))
 			
 			if debug and not index%1000:
-				print('Lines of database loaded: ', index)
-				# if index == 2000:break
+				print('Loading database: ', int(100 * index/7112), ' %')
 				
 			index += 1
 			

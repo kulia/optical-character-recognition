@@ -14,25 +14,30 @@ from sklearn.manifold import TSNE
 
 import time
 
-if __name__ == '__main__':
+def main():
 	path = file_handler.Path()
 	path_tmp = file_handler.Path('../database/tmp/')
 	
-	n_sne = 1000
 	format_database = True
 	
 	case_list = ['agument_data', 'original', 'pick_and_save_subset', 'load_subset']
-	case_list = case_list[-1]
+	# case_list = case_list[-1]
+	case_list = case_list[:2]
 	
+	t0 = time.time()
 	# For working while dev
 	if 'agument_data' in case_list:
 		data_augmentation.generate_chars74k_csv_database()
 	if 'original' in case_list or 'pick_and_save_subset' in case_list:
 		target = file_handler.load_target_to_array(path.char74k_augmented + 'target.csv')
+		target = target[:-1]
 		train = file_handler.load_image_array_from_csv(path.char74k_augmented + 'train.csv')
+	
+	n_sne = len(target)
+	print(n_sne, len(train))
+	train, target, _ = data_augmentation.select_samples(train, target, n_sne)
+	
 	if 'pick_and_save_subset' in case_list:
-		train, target, _ = data_augmentation.select_samples(train, target, n_sne)
-		
 		file_handler.delete_file(path_tmp.char74k_augmented + 'target.csv')
 		file_handler.delete_file(path_tmp.char74k_augmented + 'train.csv')
 		
@@ -43,16 +48,20 @@ if __name__ == '__main__':
 		target = file_handler.load_target_to_array(path_tmp.char74k_augmented + 'target.csv')
 		train = file_handler.load_image_array_from_csv(path_tmp.char74k_augmented + 'train.csv')
 	
+	print('Loading time: ', time.time() - t0, 's')
+	
 	t0 = time.time()
 	
-	test = train[0:200]
-	test_target = target[0:200]
+	test = train[:int(0.2*len(train))]
+	test_target = target[:int(0.2*len(target))]
 	
-	train = train[200:]
-	target = target[200:]
+	train = train[int(0.2*len(train)):]
+	target = target[int(0.2*len(target)):]
 	
-	for j in range(1, 300):
-		pca = PCA(n_components=20)
+	error = error_min = index_error_min = 0
+	
+	for j in range(1, 10):
+		pca = PCA(n_components=49)
 		pca_model = pca.fit(train)
 		pca_train = pca_model.transform(train)
 		pca_test = pca_model.transform(test)
@@ -61,10 +70,29 @@ if __name__ == '__main__':
 		prediction = fe.predict(pca_test, knn_model)
 		
 		error_counter = 0
-		for i in range(len(prediction)):
-			if prediction[i] != test_target[i]:
-				error_counter += 1
 		
-		print(j, 'Error: ', 100 * error_counter / len(test_target), '%')
+		sum(prediction == test_target)
 		
-	print('time: ', time.time() - t0, 's')
+		error = calculate_error(prediction, target)
+		print(j, 'Error: ', 100 * error, '%')
+		
+		if error < error_min:
+			error_min = error
+			index_error_min = j
+
+	print('Lowest error ', 100 * error_min, ' % when j = ', index_error_min)
+	print('Prediction: ', time.time() - t0, 's')
+	
+	
+def calculate_error(prediction, target):
+	error_counter = 0
+	for i in range(len(prediction)):
+		if prediction[i] != target[i]:
+			# print(prediction[i], target[i])
+			error_counter += 1
+	
+	return error_counter / len(target)
+	
+	
+if __name__ == '__main__':
+	main()
