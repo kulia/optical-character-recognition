@@ -1,0 +1,57 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{blindtext, graphicx}
+
+% correct bad hyphenation here
+\hyphenation{op-tical net-works semi-conduc-tor}
+
+\usepackage{hyperref}
+
+\usepackage{subfiles}
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{amsmath}
+\usepackage{mathrsfs,amsmath}   
+\usepackage{url}
+
+\usepackage{physics}
+\usepackage{xcolor}
+\usepackage{color}
+
+\usepackage{rotating}
+\usepackage{tikz}
+
+\usepackage{amsfonts}
+
+% For æø
+\usepackage[utf8]{inputenc}
+
+\usepackage{perpage} %the perpage package
+
+\usepackage{dirtytalk}
+
+\usepackage{listings}
+
+\newcommand{\vari}[1]{\input{variables/#1.tex}\unskip}
+\newcommand{\mbf}[1]{\mathbf{#1}}}
+
+\begin{document}
+\title{\huge Optical Character Recognition \\ \small{Approach using k-nearest neighbors and Support vector machines}}
+
+\author{Alla Marchenko, Olav Markussen and Geir Kulia}
+
+\maketitle
+
+\section{Feature Engineering}
+	\label{sec:fe}
+	\subfile{chapters/02fe.tex}
+
+
+
+\bibliography{main}{}
+\bibliographystyle{plain}
+
+\end{document}
+
+

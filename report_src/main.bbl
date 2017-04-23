@@ -1,0 +1,13 @@
+\begin{thebibliography}{1}
+
+\bibitem{dnoise_tv_chambolle}
+Antonin Chambolle.
+\newblock An algorithm for total variation minimization and applications.
+\newblock {\em Journal of Mathematical Imaging}, 2004.
+
+\bibitem{otsu}
+Nobuyuki Otsu.
+\newblock A threshold selection method from gray-level histograms.
+\newblock {\em IEEE Transactions on Systems, Man, and Cybernetics}, 1979.
+
+\end{thebibliography}
