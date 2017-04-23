@@ -48,9 +48,9 @@ def main():
 	
 	case_list = ['agument_data', 'original', 'pick_and_save_subset', 'load_subset']
 	# case_list = case_list[-1]
-	case_list = case_list[1:2]
+	case_list = case_list[1]
 	
-	n_sne = 1500
+	n_sne = 6000
 	
 	t0 = time.time()
 	
@@ -99,21 +99,21 @@ def main():
 	# 	image_helpers.show_image(sample_image, colorbar=True)
 	# 	plt.title(train_target[index])
 	
-	for n_pca in range(20, 60, 1):
+	for n_pca in range(30, 70, 1):
 		for n_neighbors in range(1, 10, 1):
 			error = orc_nn.classify(train_data, train_target, test_data, test_target, n_pca=n_pca, n_neighbors=n_neighbors)
 
 			if error < error_min:
-				print(c.OKBLUE,'Error ', int(100 * error), '% when n_pca = ', n_pca, 'and n_neighbors = ', n_neighbors, c.ENDC)
+				print(c.OKBLUE,'Error ', round(100 * error, ndigits=2), '% when n_pca = ', n_pca, 'and n_neighbors = ', n_neighbors, c.ENDC)
 				error_min = error
 				n_pca_best = n_pca
 				n_neighbors_best = n_neighbors_best
 			else:
-				print('', 'Error ', int(100 * error), '% when n_pca = ', n_pca, 'and n_neighbors = ', n_neighbors)
+				print('', 'Error ', round(100 * error, ndigits=2), '% when n_pca = ', n_pca, 'and n_neighbors = ', n_neighbors)
 				
 	print('Prediction: ', time.time() - t0, 's')
 	
-	helpers.write_variable_to_latex(round(100*error_min), 'error')
+	helpers.write_variable_to_latex(round(100*error_min, ndigits=2), 'error')
 	helpers.write_variable_to_latex(round(n_pca_best), 'n_pca')
 	helpers.write_variable_to_latex(round(n_neighbors_best), 'n_neighbors')
 	
