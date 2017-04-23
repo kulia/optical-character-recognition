@@ -1,3 +1,6 @@
-\BOOKMARK [1][-]{section.1}{Feature Engineering}{}% 1
-\BOOKMARK [2][-]{subsection.1.1}{Feature engineering for k-Nearest Neighbor Classifier}{section.1}% 2
-\BOOKMARK [3][-]{subsubsection.1.1.1}{Principal component analysis}{subsection.1.1}% 3
+\BOOKMARK [1][-]{section.1}{Introduction}{}% 1
+\BOOKMARK [2][-]{subsection.1.1}{How to run the system}{section.1}% 2
+\BOOKMARK [1][-]{section.2}{Feature Engineering}{}% 3
+\BOOKMARK [2][-]{subsection.2.1}{Feature engineering for k-Nearest Neighbor Classifier}{section.2}% 4
+\BOOKMARK [3][-]{subsubsection.2.1.1}{Principal component analysis}{subsection.2.1}% 5
+\BOOKMARK [1][-]{section.3}{Classifier}{}% 6
