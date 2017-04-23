@@ -1,11 +1,7 @@
 from sklearn.decomposition import PCA
 import OCR_nearest_neighbors.classification as kNN
-import OCR_nearest_neighbors.preprocessing as pp
 
 def classify(train_data, train_target, test_data, test_target, n_pca=49, n_neighbors=4):
-	train_data = pp.standardized_augmentation(train_data)
-	test_data = pp.standardized_augmentation(test_data)
-	
 	pca = PCA(n_components=n_pca)
 	pca_model = pca.fit(train_data)
 	pca_train = pca_model.transform(train_data)

@@ -1,9 +1,23 @@
 import numpy as np
 import time
 
+import matplotlib.pyplot as plt
 import helpers.file_handler as file_handler
 import OCR_nearest_neighbors as orc_nn
+import OCR_nearest_neighbors.preprocessing as pp
+import helpers.visualize as image_helpers
 
+from random import random
+
+class Colors:
+    HEADER = '\033[95m'
+    OKBLUE = '\033[94m'
+    OKGREEN = '\033[92m'
+    WARNING = '\033[93m'
+    FAIL = '\033[91m'
+    ENDC = '\033[0m'
+    BOLD = '\033[1m'
+    UNDERLINE = '\033[4m'
 
 def select_samples(train, target, number_of_samples):
 	indeces = np.random.permutation(len(train))[:number_of_samples]
@@ -27,6 +41,7 @@ def data_to_train_and_test(X_data, Y_data, ratio=0.2):
 	
 
 def main():
+	c = Colors
 	path = file_handler.Path()
 	path_tmp = file_handler.Path('../database/tmp/')
 	
@@ -66,16 +81,31 @@ def main():
 	train_data, train_target, test_data, test_target = data_to_train_and_test(data_X, data_Y, ratio=0.2)
 	
 	error_min = 1
-
-	for n_pca in range(1, 100, 5):
-		for n_neighbors in range(1, 10):
+	
+	train_data = pp.standardized_augmentation(train_data)
+	test_data = pp.standardized_augmentation(test_data)
+	
+	# for _ in range(5):
+	# 	index = int(np.round( len(train_data) * random() ))
+	# 	sample_image = train_data[index]
+	# 	sample_image = pp.standardized_augmentation(np.array([sample_image]))
+	# 	sample_image = sample_image.reshape((20, 20))
+	# 	plt.figure()
+	# 	image_helpers.show_image(sample_image, colorbar=True)
+	# 	plt.title(train_target[index])
+	# plt.show()
+	
+	for n_pca in range(20, 60, 1):
+		for n_neighbors in range(1, 5):
 			error = orc_nn.classify(train_data, train_target, test_data, test_target, n_pca=n_pca, n_neighbors=n_neighbors)
 
 			if error < error_min:
-				print('Error ', int(100 * error), '% when n_pca = ', n_pca, 'and n_neighbors = ', n_neighbors)
+				print(c.OKBLUE,'Error ', int(100 * error), '% when n_pca = ', n_pca, 'and n_neighbors = ', n_neighbors, c.ENDC)
 				error_min = error
+			else:
+				print('Error ', int(100 * error), '% when n_pca = ', n_pca, 'and n_neighbors = ', n_neighbors)
 				
 	print('Prediction: ', time.time() - t0, 's')
-	
+		
 if __name__ == '__main__':
 	main()

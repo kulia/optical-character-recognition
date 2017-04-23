@@ -9,6 +9,8 @@ import os
 
 debug = True
 
+from time import time
+
 
 class Path:
 	def __init__(self, database='../database/'):
@@ -45,18 +47,25 @@ def save_array_to_csv(array, path):
 
 def load_image_array_from_csv(path_to_image_array):
 	image_array = np.array([])
+	t_end = time()
+	
 	with open(path_to_image_array, 'r') as f:
 		index = 0
 		for line in f.readlines():
+			t0 = time()
 			if len(image_array) == 0:
 				image_array = np.array([float(x) for x in line.strip('\n').split(',')])
 			else:
 				image_array = np.vstack((image_array, [float(x) for x in line.strip('\n').split(',')]))
 			
+			t1 = time()
+			
 			if debug and not index%1000:
-				print('Loading database: ', int(100 * index/7112), ' %')
+				print('Loading database: ', int(100 * index/7112), ' %', 1000*(t1-t0), 1000*(t0-t_end))
 				
 			index += 1
+			
+			t_end = time()
 			
 	return image_array
 
