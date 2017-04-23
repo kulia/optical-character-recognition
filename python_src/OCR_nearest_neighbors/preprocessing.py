@@ -9,7 +9,11 @@ from helpers.file_handler import Path
 
 import matplotlib.pyplot as plt
 import helpers.visualize as image_helpers
-									
+import helpers.file_handler as file_handler
+	
+from helpers.file_handler import normalize
+				
+																				
 debug = True
 										
 def standardized_augmentation(data, display=False):
@@ -21,14 +25,17 @@ def standardized_augmentation(data, display=False):
 		plt.savefig(path.figure + 'pp/raw.pdf', format='pdf', dpi=1000)
 		plt.draw()
 	
-	data = image_helpers.convert_to_sensor_values(data)
+	data_0 = image_helpers.convert_to_sensor_values(data)
+
+	data = normalize(data)
 
 	if display:
 		plt.figure()
-		image_helpers.show_image(data[0])
+		image_helpers.show_image(data_0[0])
 		plt.savefig(path.figure + 'pp/sensor.pdf', format='pdf', dpi=1000)
 		plt.draw()
-	
+		
+	data = normalize(data)
 	data = denoise(data)
 	
 	if display:
@@ -37,14 +44,16 @@ def standardized_augmentation(data, display=False):
 		plt.savefig(path.figure + 'pp/denoise.pdf', format='pdf', dpi=1000)
 		plt.draw()
 	
-	data_0 = image_to_bool(data)
+	data = normalize(data)
+	data = image_to_bool(data)
 	
 	if display:
 		plt.figure()
-		image_helpers.show_image(data_0[0])
+		image_helpers.show_image(data[0])
 		plt.savefig(path.figure + 'pp/img_to_bool.pdf', format='pdf', dpi=1000)
 		plt.draw()
-		
+	
+	data = normalize(data)
 	data = histogram_of_oriented_gradients(data)
 	
 	if display:
