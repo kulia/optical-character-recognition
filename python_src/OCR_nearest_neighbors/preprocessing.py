@@ -1,38 +1,59 @@
 import numpy as np
 import scipy.signal
-from skimage.feature import hog
-
-from skimage import restoration
-from skimage.filters import threshold_otsu
 import skimage.morphology
 
+from skimage.feature import hog
+from skimage import restoration
+from skimage.filters import threshold_otsu
+from helpers.file_handler import Path
+
+import matplotlib.pyplot as plt
 import helpers.visualize as image_helpers
-							
+									
 debug = True
-							
-def standardized_augmentation(data):
-	data = denoise(data)
-	data = image_to_bool(data)
-	data = closing(data)
+										
+def standardized_augmentation(data, display=False):
+	path = Path()
+	
+	if display:
+		plt.figure()
+		image_helpers.show_image(data[0])
+		plt.savefig(path.figure + 'pp/raw.pdf', format='pdf', dpi=1000)
+		plt.draw()
+	
 	data = image_helpers.convert_to_sensor_values(data)
+
+	if display:
+		plt.figure()
+		image_helpers.show_image(data[0])
+		plt.savefig(path.figure + 'pp/sensor.pdf', format='pdf', dpi=1000)
+		plt.draw()
+	
+	data = denoise(data)
+	
+	if display:
+		plt.figure()
+		image_helpers.show_image(data[0])
+		plt.savefig(path.figure + 'pp/denoise.pdf', format='pdf', dpi=1000)
+		plt.draw()
+	
+	data_0 = image_to_bool(data)
+	
+	if display:
+		plt.figure()
+		image_helpers.show_image(data_0[0])
+		plt.savefig(path.figure + 'pp/img_to_bool.pdf', format='pdf', dpi=1000)
+		plt.draw()
+		
 	data = histogram_of_oriented_gradients(data)
+	
+	if display:
+		plt.figure()
+		image_helpers.show_image(data[0])
+		plt.savefig(path.figure + 'pp/hog.pdf', format='pdf', dpi=1000)
+		plt.draw()
+		
 	return data
-	
-	
-def closing(data):
-	data_out = np.array([])
-	for data_sample in data:
-		
-		data_sample = data_sample.reshape((20, 20))
-		sample_bool = skimage.morphology.closing(data_sample, skimage.morphology.square(2))
-		sample_bool = np.array(sample_bool).flatten()
-		
-		if len(data_out) == 0:
-			data_out = sample_bool
-		else:
-			data_out = np.vstack((data_out, sample_bool))
-	
-	return np.array(data_out)
 
 
 def image_to_bool(data_normalized):
@@ -41,12 +62,12 @@ def image_to_bool(data_normalized):
 		
 		data_sample = data_sample.reshape((20, 20))
 		sample_bool = data_sample <= threshold_otsu(data_sample)
+		sample_bool = skimage.morphology.closing(sample_bool, skimage.morphology.square(2))
 		sample_bool = np.array(sample_bool).flatten()
 		
 		if len(data_bool) == 0:
 			data_bool = sample_bool
 		else:
-			print(data_bool.shape, sample_bool.shape)
 			data_bool = np.vstack((data_bool, sample_bool))
 	
 	return np.array(data_bool)
@@ -91,13 +112,6 @@ def histogram_of_oriented_gradients(data_images):
 			print('HOG is', 100 * index/len(data_images), '% finished.')
 		
 	return np.array(images)
-	
-	
-def normalize(data):
-	image_min = np.nanmin(data)
-	image_max = np.nanmax(data)
-	
-	return (data - image_min) / (image_max - image_min)
 
 
 def sigmoid(data_normalized):

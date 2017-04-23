@@ -82,6 +82,8 @@ def main():
 	
 	error_min = 1
 	
+	pp.standardized_augmentation(train_data[:5], display=True)
+	
 	train_data = pp.standardized_augmentation(train_data)
 	test_data = pp.standardized_augmentation(test_data)
 	
@@ -93,10 +95,10 @@ def main():
 	# 	plt.figure()
 	# 	image_helpers.show_image(sample_image, colorbar=True)
 	# 	plt.title(train_target[index])
-	# plt.show()
-	
+	plt.show()
+
 	for n_pca in range(20, 60, 1):
-		for n_neighbors in range(1, 5):
+		for n_neighbors in range(1, 20, 2):
 			error = orc_nn.classify(train_data, train_target, test_data, test_target, n_pca=n_pca, n_neighbors=n_neighbors)
 
 			if error < error_min:
@@ -104,7 +106,7 @@ def main():
 				error_min = error
 			else:
 				print('Error ', int(100 * error), '% when n_pca = ', n_pca, 'and n_neighbors = ', n_neighbors)
-				
+
 	print('Prediction: ', time.time() - t0, 's')
 		
 if __name__ == '__main__':

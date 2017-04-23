@@ -1,8 +1,13 @@
 import matplotlib.pyplot as plt
 import numpy as np
 	
-def show_image(image, colorbar=True):
+def show_image(image, colorbar=False):
+	image = image.reshape((20, 20))
 	cax = plt.imshow(image, cmap=plt.get_cmap('BrBG'))
+	
+	plt.xticks([])
+	plt.yticks([])
+	
 	if colorbar:
 		plt.colorbar(cax)
 		

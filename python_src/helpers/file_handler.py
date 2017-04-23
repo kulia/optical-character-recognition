@@ -1,15 +1,14 @@
-from PIL import Image
-import numpy as np
-import helpers.visualize as image_helpers
-from string import ascii_lowercase as alphabet
-import OCR_nearest_neighbors.preprocessing as da
-
-from os import listdir
 import os
 
-debug = True
+import numpy as np
+import helpers.visualize as image_helpers
 
+from string import ascii_lowercase as alphabet
+from PIL import Image
+from os import listdir
 from time import time
+
+debug = True
 
 
 class Path:
@@ -17,6 +16,7 @@ class Path:
 		self.database = database
 		self.char74k = database + 'chars74k-lite/'
 		self.char74k_augmented = database + 'char74k-augmented/'
+		self.figure = '../report_src/figures/'
 		create_dir(self.char74k_augmented)
 		
 
@@ -107,9 +107,16 @@ def generate_chars74k_csv_database():
 			path_to_image = path.char74k + letter_filename
 			
 			image = load_image(path_to_image)
-			image = da.normalize(image)
+			image = normalize(image)
 			
 			image_array = image_helpers.image_matrix_to_array(image)
 			
 			save_array_to_csv(image_array, path.char74k_augmented + train_database_name)
 			save_target_to_csv(path.char74k_augmented + target_database_name, letter)
+
+
+def normalize(data):
+	image_min = np.nanmin(data)
+	image_max = np.nanmax(data)
+	
+	return (data - image_min) / (image_max - image_min)
