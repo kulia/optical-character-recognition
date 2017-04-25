@@ -54,9 +54,9 @@ def load_image_array_from_csv(path_to_image_array):
 		for line in f.readlines():
 			t0 = time()
 			if len(image_array) == 0:
-				image_array = np.array([float(x) for x in line.strip('\n').split(',')])
+				image_array = np.array([float(x) for x in line.strip('\n').strip('\'').split(',')])
 			else:
-				image_array = np.vstack((image_array, [float(x) for x in line.strip('\n').split(',')]))
+				image_array = np.vstack((image_array, [float(x) for x in line.strip('\n').strip('\'').split(',')]))
 			
 			t1 = time()
 			

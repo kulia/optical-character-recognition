@@ -9,6 +9,7 @@ import helpers
 import helpers.file_handler as file_handler
 import preprocessing as pp
 
+# from importlib import reload
 
 class Colors:
     HEADER = '\033[95m'
@@ -42,7 +43,7 @@ def data_to_train_and_test(X_data, Y_data, ratio=0.2):
 	
 	
 class ImageData():
-	def __init__(self, preprocessing=True):
+	def __init__(self, preprocessing=True, show_fig=False, debug=True):
 		# Private variables
 		self.case_list_ = ['agument_data', 'original', 'pick_and_save_subset', 'load_subset']
 		self.case_list_ = self.case_list_[1]
@@ -54,7 +55,10 @@ class ImageData():
 		self.n_samples = len(self.train_data)
 		self.n_pixeles = len(self.train_data[0])
 		
+		self.show_fig = show_fig
+		
 		if preprocessing:
+			print('ImageData: Start preprocessing')
 			self.preprocess_data()
 		
 	def preprocess_data(self):
@@ -66,7 +70,7 @@ class ImageData():
 		
 		n_sne = 6000
 		
-		t0 = time.time()
+		
 		
 		# For working while dev
 		if 'agument_data' in self.case_list_:
@@ -89,12 +93,7 @@ class ImageData():
 			data_Y = file_handler.load_target_to_array(path_tmp.char74k_augmented + 'target.csv')
 			data_X = file_handler.load_image_array_from_csv(path_tmp.char74k_augmented + 'train.csv')
 		
-		print('Loading time: ', time.time() - t0, 's')
-		
-		t0 = time.time()
-		
 		train_data, train_target, test_data, test_target = data_to_train_and_test(data_X, data_Y, ratio=0.2)
-		
 		return train_data, train_target, test_data, test_target
 
 
@@ -104,7 +103,6 @@ def estimate_error(ImageData):
 	error_min = 1
 	n_pca_best = 0
 	n_neighbors_best = 0
-	
 	
 	
 	ImageData.train_data = pp.standardized_augmentation(ImageData.train_data)
@@ -134,7 +132,6 @@ def estimate_error(ImageData):
 				print('', 'Error ', round(100 * error, ndigits=2), '% when n_pca = ', n_pca, 'and n_neighbors = ',
 				      n_neighbors)
 	
-	print('Prediction: ', time.time() - t0, 's')
 	
 	helpers.write_variable_to_latex(round(100 * error_min, ndigits=2), 'error')
 	helpers.write_variable_to_latex(round(n_pca_best), 'n_pca')
@@ -142,11 +139,17 @@ def estimate_error(ImageData):
 
 
 def main():
+	t0 = time.time()
 	image_data = ImageData()
+	print('Loading time: ', time.time() - t0, 's')
+	
+	t0 = time.time()
 	
 	# estimate_error(image_data)
 	
 	ocr_svc.optimize_svc(image_data)
+	
+	print('Prediction: ', time.time() - t0, 's')
 	
 	plt.show()
 				
