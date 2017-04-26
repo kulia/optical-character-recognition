@@ -27,7 +27,8 @@ def standardized_augmentation(data, display=False):
 	
 	data_0 = image_helpers.convert_to_sensor_values(data)
 
-	data = normalize(data)
+	# Might not want to normalize at first
+	# data = normalize(data)
 
 	if display:
 		plt.figure()
@@ -35,7 +36,6 @@ def standardized_augmentation(data, display=False):
 		plt.savefig(path.figure + 'pp/sensor.pdf', format='pdf', dpi=1000)
 		plt.draw()
 		
-	data = normalize(data)
 	data = denoise(data)
 	
 	if display:
