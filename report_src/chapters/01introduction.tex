@@ -1,13 +1,24 @@
 \documentclass[../main.tex]{subfiles}
 \begin{document}
 
-This report is presenting two approaches to Optical Character Recognition (OCR). The approaches applied are k-Nearest Neighbor Classifier and Support Vector Machines. A general overview of the implementation is shown in \autoref{fig:model}. The data is loaded from the Char74k-Lite dataset and diveded, at random, into two databases. 80 \% is selected as the training set, and 20 \% is the test set. The data is then preprocessed, as described in \autoref{sec:fe}. A model is trained on the training set, before the model is passed to the classifier. The classifier is described in \autoref{sec:class}. The system output is the classifier error, which is given by
+This report is presenting two approaches to Optical Character Recognition (OCR). The approaches applied are $k$-Nearest Neighbor Classifier and Support Vector Machines. A general overview of the implementation is shown in \autoref{fig:model}. The data is loaded from the Char74k-Lite dataset and diveded, at random, into two databases. 80 \% is selected as the training set, and 20 \% is the test set. The data is then preprocessed, as described in \autoref{sec:fe}. A model is trained on the training set, before the model is passed to the classifier. The classifier is described in \autoref{sec:class}. The system output is the classifier error, which is given by
 \begin{equation}
-	E = \frac{N_{\rm fail}}{N_{\rm test}}
+	E = \frac{N_{\rm fail}}{N_{\rm test}} \label{eq:error}
 \end{equation}
-where $N_{\rm fail}$ is the number of wrong classifications in the test set and $N_{\rm test}$ is the total number of samples in the test set.
+where $N_{\rm fail}$ is the number of wrong classifications in the test set and $N_{\rm test}$ is the total number of samples in the test set. 
 
-\subsection{How to run the system}
+The Python program mainly used two packages: Scikit-image and Scikit-learn. Scikit-image is a opensource image processing library, that was manly used for preprocessing. Scikit-learn is a library that can be used for classification, regression, clustering, dimensional reduction, model selection, and also preprocessing. It was heavely applied during this project. A complete list of all libraries used are shown in \autoref{a:libs}.
+
+{\color{red}Test this.} The software uses UNIX convention for file paths, so this might not work on windows. To start the python program: type
+\begin{lstlisting}[language=Python]
+$ python3 main.py
+\end{lstlisting}
+into your terminal. To run the Matlab program, type
+\begin{lstlisting}[language=Python]
+$ matlab -nodesktop -nosplash
+>> run main
+\end{lstlisting}
+
 
 \begin{figure}
   \centering

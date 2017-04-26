@@ -11,10 +11,8 @@
 \usepackage{graphicx}
 \usepackage{caption}
 \usepackage{subcaption}
-\usepackage{amsmath}
-\usepackage{mathrsfs,amsmath}   
+\usepackage{amsmath}  
 \usepackage{url}
-
 \usepackage{physics}
 \usepackage{xcolor}
 \usepackage{color}
@@ -32,12 +30,21 @@
 \usepackage{dirtytalk}
 
 \usepackage{listings}
+\lstset{language=python,
+                basicstyle=\ttfamily,
+                keywordstyle=\color{blue}\ttfamily,
+                stringstyle=\color{red}\ttfamily,
+                commentstyle=\color{green}\ttfamily,
+                morecomment=[l][\color{magenta}]{\#}
+}
 
 \newcommand{\vari}[1]{\input{variables/#1.tex}\unskip}
-\newcommand{\mbf}[1]{\mathbf{#1}}}
+\newcommand{\mbf}[1]{\mathbf{#1}}
+\newcommand{\py}[1]{\texttt{#1}}
+\newcommand{\knn}{$k$-NN\ }
 
 \begin{document}
-\title{\huge Optical Character Recognition \\ \small{Approach using k-nearest neighbors and Support vector machines}}
+\title{\huge Optical Character Recognition \\ \small{Approach using $k$-Nearest Neighbors and Support Vector Machines}}
 
 \author{Alla Marchenko, Olav Markussen and Geir Kulia}
 
@@ -53,11 +60,21 @@
 
 \section{Classifier}
 	\label{sec:class}
-	% \subfile{chapters/02fe.tex}
+	\subfile{chapters/03class.tex}
+
+\section{Character Detection}
+\blindtext
+
+\section{Conclusion}
+
+\blindtext
 
 \bibliography{main}{}
 \bibliographystyle{plain}
 
+\appendix
+\section{Libraries used}
+	\label{a:libs}
+	\subfile{chapters/0Alibs.tex}
+
 \end{document}
-
-

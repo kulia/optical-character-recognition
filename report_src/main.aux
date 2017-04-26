@@ -16,14 +16,14 @@
 \gdef\HyperFirstAtBeginDocument#1{#1}
 \providecommand\HyField@AuxAddToFields[1]{}
 \providecommand\HyField@AuxAddToCoFields[2]{}
+\citation{dnoise_tv_chambolle}
 \@writefile{toc}{\contentsline {section}{\numberline {1}Introduction}{1}{section.1}}
 \newlabel{sec:intro}{{1}{1}{Introduction}{section.1}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {1.1}How to run the system}{1}{subsection.1.1}}
-\@writefile{toc}{\contentsline {section}{\numberline {2}Feature Engineering}{1}{section.2}}
-\newlabel{sec:fe}{{2}{1}{Feature Engineering}{section.2}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces Model of OCR system.\relax }}{1}{figure.caption.1}}
+\newlabel{eq:error}{{1}{1}{Introduction}{equation.1.1}{}}
+\citation{otsu}
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces Model of OCR system.\relax }}{2}{figure.caption.1}}
 \providecommand*\caption@xref[2]{\@setref\relax\@undefined{#1}}
-\newlabel{fig:model}{{1}{1}{Model of OCR system.\relax }{figure.caption.1}{}}
+\newlabel{fig:model}{{1}{2}{Model of OCR system.\relax }{figure.caption.1}{}}
 \newlabel{fig:gull}{{2a}{2}{Raw image.\relax }{figure.caption.2}{}}
 \newlabel{sub@fig:gull}{{a}{2}{Raw image.\relax }{figure.caption.2}{}}
 \newlabel{fig:denoise}{{2b}{2}{Denoised image.\relax }{figure.caption.2}{}}
@@ -34,13 +34,36 @@
 \newlabel{sub@fig:hog}{{d}{2}{Histogram of Oriented Gradients.\relax }{figure.caption.2}{}}
 \@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Example of random selected image before and after preprocessing. The colors has been altered using a color map to visually enhance variance.\relax }}{2}{figure.caption.2}}
 \newlabel{fig:pp_image}{{2}{2}{Example of random selected image before and after preprocessing. The colors has been altered using a color map to visually enhance variance.\relax }{figure.caption.2}{}}
-\citation{dnoise_tv_chambolle}
-\citation{otsu}
-\bibdata{main}
-\bibcite{dnoise_tv_chambolle}{1}
-\bibcite{otsu}{2}
-\bibstyle{plain}
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.1}Feature engineering for k-Nearest Neighbor Classifier}{3}{subsection.2.1}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.1.1}Principal component analysis}{3}{subsubsection.2.1.1}}
+\@writefile{toc}{\contentsline {section}{\numberline {2}Feature Engineering}{2}{section.2}}
+\newlabel{sec:fe}{{2}{2}{Feature Engineering}{section.2}{}}
+\citation{cnn_1}
+\citation{cnn_2}
+\citation{ml}
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces An example of $k$-nearest neighbors algorithm. An unknown input character \textit  {\textbf  {\o }} is decided by comparing it with the $k=3$ nearest neighbors. The three nearest neighbors to \textit  {\textbf  {\o }} are $a$, $a$, and $b$, so in this example \textit  {\textbf  {\o }}$=a$.\relax }}{3}{figure.caption.3}}
+\newlabel{fig:knn}{{3}{3}{An example of $k$-nearest neighbors algorithm. An unknown input character \textit {\textbf {\o }} is decided by comparing it with the $k=3$ nearest neighbors. The three nearest neighbors to \textit {\textbf {\o }} are $a$, $a$, and $b$, so in this example \textit {\textbf {\o }}$=a$.\relax }{figure.caption.3}{}}
 \@writefile{toc}{\contentsline {section}{\numberline {3}Classifier}{3}{section.3}}
 \newlabel{sec:class}{{3}{3}{Classifier}{section.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.1}$k$-nearest neighbors algorithm with Principal component analysis}{3}{subsection.3.1}}
+\citation{pca}
+\citation{tsne}
+\citation{svm}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.1.1}Principal component analysis}{4}{subsubsection.3.1.1}}
+\newlabel{sec:pca}{{3.1.1}{4}{Principal component analysis}{subsubsection.3.1.1}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.1.2}Performance of $k$-nearest neighbors algorithm}{4}{subsubsection.3.1.2}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.2}Linear Support Vector Classifier}{4}{subsection.3.2}}
+\bibdata{main}
+\bibcite{dnoise_tv_chambolle}{1}
+\bibcite{svm}{2}
+\bibcite{pca}{3}
+\bibcite{cnn_1}{4}
+\@writefile{toc}{\contentsline {section}{\numberline {4}Character Detection}{5}{section.4}}
+\@writefile{toc}{\contentsline {section}{\numberline {5}Conclusion}{5}{section.5}}
+\bibcite{ml}{5}
+\bibcite{otsu}{6}
+\bibcite{tsne}{7}
+\bibcite{cnn_2}{8}
+\bibstyle{plain}
+\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces Libraries used.\relax }}{6}{table.caption.5}}
+\newlabel{tab:libs}{{1}{6}{Libraries used.\relax }{table.caption.5}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {A}Libraries used}{6}{appendix.A}}
+\newlabel{a:libs}{{A}{6}{Libraries used}{appendix.A}{}}
