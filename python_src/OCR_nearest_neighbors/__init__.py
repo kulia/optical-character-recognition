@@ -46,7 +46,7 @@ def calculate_error(prediction, target):
 
 def five_Examples(test_data, prediction, target, path=file_handler.Path()):
 	count = 0
-	font_size = 30
+	font_size = 50
 	
 	for i in np.arange(len(test_data)):
 		if prediction[i] == target[i]:
@@ -54,6 +54,8 @@ def five_Examples(test_data, prediction, target, path=file_handler.Path()):
 			image_helpers.show_image(test_data[i])
 			plt.xlabel('Prediction: '+prediction[i], fontsize=font_size)
 			plt.savefig(path.figure + 'ex/p_{}.pdf'.format(count), format='pdf', dpi=1000)
+			plt.subplots_adjust(bottom=0.33)
+			plt.margins(0.2, 0)
 			plt.draw()
 			count += 1
 		if count > 4:
@@ -64,7 +66,9 @@ def five_Examples(test_data, prediction, target, path=file_handler.Path()):
 		if prediction[i] != target[i]:
 			# rc('text', usetex=True)
 			image_helpers.show_image(test_data[i])
-			plt.xlabel('Prediction: ' + prediction[i] + '\n Target: ' + target[i] , fontsize=font_size)
+			plt.xlabel('Prediction: ' + prediction[i] + '\n Target: ' + target[i] , fontsize=font_size) # adjust buttom
+			# plt.xlabel('Prediction: ' + prediction[i] + ' | Target: ' + target[i], fontsize=font_size)
+			plt.subplots_adjust(bottom=0.33)
 			plt.savefig(path.figure + 'ex/n_{}.pdf'.format(count), format='pdf', dpi=1000)
 			plt.draw()
 			count += 1
