@@ -4,7 +4,7 @@ close all, clear all, clc
 
 fprintf('Preparing dataset... \n')
 % Go over the folders and find files
-Dir   = fullfile('~/Documents/A/PhD_NTNU/MatLab_scripts/Assignment5/chars74k-lite');
+Dir   = fullfile('../database/chars74k-lite/');
 imSet = imageSet(Dir,   'recursive');
 
 % Plot random images
@@ -109,7 +109,7 @@ fprintf('Done! \n')
 fprintf('Analysing test images... \n')
 
 % Test images directory
-DirTI   = fullfile('~/Documents/A/PhD_NTNU/MatLab_scripts/Assignment5/detection-images');
+DirTI   = fullfile('../database/detection-images/');
 % Define horizontal and vertical step (pixels) for the sliding window
 % Small steps are computationally expensive but yield better accuracy
 step = [3,3];
