@@ -1,7 +1,5 @@
 close all, clear all, clc
 
-set(0,'defaultaxesfontname','times new roman'); % Set default font
-
 fontSize = 16;
 pathToFig = '../report_src/figures/lsvc_matlab/';
 fig = 0;
