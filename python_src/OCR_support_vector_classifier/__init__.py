@@ -1,28 +1,18 @@
 import sklearn.svm as svm
 import numpy as np
-
-from sklearn.base import BaseEstimator
 from skimage.feature import hog
-from skimage import color
-from sklearn import cross_validation
 from sklearn.pipeline import Pipeline
-from sklearn.svm import LinearSVC
-
-from sklearn.svm import LinearSVC
 from sklearn.model_selection import GridSearchCV
-
 from sklearn.base import BaseEstimator
-
-from sklearn.metrics import accuracy_score
 
 print('OCR_svc reloaded!')
 
 class HogSpecs(BaseEstimator):
-	def __init__(self, ImageData, orientations=2, pixels_per_cell=(2,2), cells_per_block=(2,2), visualise=True):
+	def __init__(self, ImageData, orientations=10, pixels_per_cell=(5,5), cells_per_block=(2,2), visualise=True):
 		super(HogSpecs, self).__init__()
+		self.cells_per_block = cells_per_block
 		self.orientations = orientations
 		self.pixels_per_cell = pixels_per_cell
-		self.cells_per_block = cells_per_block
 		self.visualise = visualise
 		
 		self.ImageData = ImageData
@@ -47,7 +37,7 @@ class HogSpecs(BaseEstimator):
 def optimize_svc(ImageData):
 	model, parameters = set_models(ImageData)['hog_lsvc']
 		
-	gsSVC = GridSearchCV(model, param_grid=parameters, n_jobs=-1, verbose=4)
+	gsSVC = GridSearchCV(model, param_grid=parameters, n_jobs=-1, verbose=4, cv=2)
 	gsSVC.fit(ImageData.train_data, ImageData.train_target)
 	
 	print('Best score for train data:', np.round(100 * gsSVC.best_score_), '%')
@@ -56,16 +46,17 @@ def set_models(ImageData):
 	models = {
 		'lsvc' : (
 			svm.SVC(),
-			[{'C': np.arange(0.01, 2, 0.10), 'kernel': ['linear']}]
+			[{'C': np.arange(1., 5, 0.30), 'kernel': ['linear']}]
 		),
 		
 		'hog_lsvc' : (
 			Pipeline([('hog' , HogSpecs(ImageData)) , ('clf', svm.SVC()) ]),
 			{
-				'hog__orientations' : [2, 4, 5, 10],
-				'hog__pixels_per_cell' : [(2, 2), (4, 4), (5, 5)],
-				'hog__cells_per_block' : [(2, 2), (4, 4), (5, 5)],
-				'clf__C' : [0.01, 0.05, 0.1, 0.5, 1, 1.5, 2, 5, 10],
+				'hog__orientations' : [10],
+				'hog__pixels_per_cell' : [(5, 5)],
+				'hog__cells_per_block' : [(2, 2)],
+				'clf__C' : np.arange(1, 3, 0.1),
+				'clf__kernel':['linear'],
 			}
 		)
 	}
