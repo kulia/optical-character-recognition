@@ -1,0 +1,19 @@
+\documentclass[../main.tex]{subfiles}
+\begin{document}
+
+It's the authors opinion that the weakest part of the OCR system is the
+character detection. Some letters are recognized poorly due to that fact that
+our training data consists of pictures with white letters on black background
+and vice versa. This might have led our classifier to classify purely white images as a
+character, usually the character `i'.
+
+The strongest part of our OCR system is the character classification. The
+SVM classifier achieves an error rate of \vari{error_matlab}, which is quite
+sufficient for the given task.
+
+Due to lack of time, the authors didn't have time to improve the system further.
+The authors have gained a lot of experience with relevant machine learning
+libraries such as scikit-learn for python and the machine learning toolbox for
+matlab.
+
+\end{document}
