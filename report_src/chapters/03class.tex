@@ -3,9 +3,9 @@
 
 In this section, we will discuss two approaches for classifying characters: the $k$-nearest neighbors' algorithm and linear support vector classifier. We will also discuss task-tailored feature-engineering used to enhance the result, which is not discussed in the previous chapter. 
 
-After examining the data set Char74K-lite, the author's initial thought was to use Conventional neural networks (CNN). CNNs have been used to recognize far more complicated objects than characters \cite{cnn_1}; hence, it should be a trivial task to apply CNNs to recognize letters \cite{cnn_2}. However, due to the limited time for training, lack of heavyweight graphical processing units, and that it is discouraged by the assignment, we choose not to use Conventional neural networks. 
+After examining the data set Char74K-lite, the author's initial thought was to use convolutional neural networks (CNN). CNNs have been used to recognize far more complicated objects than characters \cite{cnn_1}; hence, it should be a trivial task to apply CNNs to recognize letters \cite{cnn_2}. However, due to the limited time for training, lack of heavyweight graphical processing units, and that it is discouraged by the assignment, we choose not to use convolutional neural networks. 
 
-The authors had a limited knowledge of Principal Component Analysis and Support Vector Machines and thought this would be an excellent opportunity to gain more theoretical knowledge as well as hands-on experience with these methods. We, therefore, chose to pursuit one application with Principal component analysis and $k$-nearest neighbors algorithm as a classifier. The other approach was to use linear support vector classifiers. Both methods used the preprocessing described in \autoref{sec:fe}.
+The authors had a limited knowledge of Principal Component Analysis and Support Vector Machines and thought this would be an excellent opportunity to gain more theoretical knowledge as well as hands-on experience with these methods. We, therefore, chose to pursuit one application with Principal component analysis and $k$-nearest neighbors algorithm as a classifier. The other approach was to use linear support vector classifiers. Support vector classifiers were implemented in both Python and Matlab. Both Python versions used the preprocessing described in \autoref{sec:fe}, while the Matlab version only applied HOG.
 
 \subsection{$k$-nearest neighbors algorithm with Principal component analysis}
 
@@ -36,8 +36,7 @@ E_{k\rm NN}=\vari{error} \rm\ \%
 which was higher than the allowed error of this project. We, therefore, continued with an approach based on Linear Support Vector Classifiers, as described in the next section.
 
 \subsection{Linear Support Vector Classifier}
-
-A Linear Support Vector Classifier (LSVC) implemented is a supervised learning model for binary classification \cite{svm}. A Multiclass LSVC was used in this example, which means that the 26 classes are reduced to a set of binary classifications.
+Support Vector Machines (SVM) is a tool often applied to classification, clustering and regression \cite{svm1} as well as data mining \cite{svn_dm}. A Linear Support Vector Classifier (LSVC) implemented is a supervised learning model for binary classification \cite{svm}. A Multiclass LSVC was used in this example, which means that the 26 classes are reduced to a set of binary classifications.
 
 Each binary LSVC classification maps the training data's separate categories into points in space, and linearly divide them by an apparent gap. The test data is assigned to the same space and classified based on what side of the division line the data appears. Support Vector Classifiers can perform classify non-linear classification by using kernel tricks, i.e. transforming the data. However, kernel tricks were not applied in this project.
 
