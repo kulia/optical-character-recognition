@@ -3,6 +3,10 @@ function [L] = slidingWindowAndPlot(DirTI, imNum, step, cellSize, classifier, co
 imTestSet = imageSet(DirTI);
 % figure; imshow(imTestSet.ImageLocation{imNum});
 I = imread(imTestSet.ImageLocation{imNum});
+
+
+threshold =  200;
+
 % Apply sliding window approach and identify features
 
 numTestImages = 1;
@@ -11,12 +15,15 @@ coordXY = [];
 for i = 1:step(1):(size(I,1) - 20)
     for j = 1:step(2):(size(I,2) - 20)
         imT = I(i:i+19,j:j+19);
-        featuresTest(numTestImages,:) = extractHOGFeatures(imT,'CellSize',cellSize);
-        coordXY(numTestImages,:) = [i,j];
-        numTestImages = numTestImages + 1;
+        if sum(sum(imT<threshold)) > 100
+            % disp('Character detected!')
+            featuresTest(numTestImages,:) = extractHOGFeatures(imT,'CellSize',cellSize);
+            coordXY(numTestImages,:) = [i,j];
+            numTestImages = numTestImages + 1;
+        end
     end;
 end;
-
+size(featuresTest)
 % Find the likelyhood of each letter to be present in each image
 [predictTestLabel,scores] = predict(classifier, featuresTest);
 
@@ -48,8 +55,7 @@ for i = 1:count
 %     imshow(I(position(i,1):position(i,1)+20,position(i,2):position(i,2)+20));
     hold on;
     imshow(I);
-    if ~strcmp(LableFound(i), 'i') || ~strcmp(LableFound(i), 'j')
-        drawSquare(position(i, 2), position(i, 1), 20, 'b', LableFound(i))
+    drawSquare(position(i, 2), position(i, 1), 20, 'b', LableFound(i))
 %     cmPos = double(LableFound(i))-96;
 %     confid(i) = confMat(cmPos,cmPos)/sum(confMat(cmPos,:))*100;
 %     title(LableFound(i));
@@ -57,7 +63,6 @@ for i = 1:count
 %     if i > 5
 %         break;
 %     end;
-    end
 end;
 
 L = LableFound;
