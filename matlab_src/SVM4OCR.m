@@ -2,9 +2,9 @@ close all, clear all, clc
 
 set(0,'defaultaxesfontname','times new roman'); % Set default font
 
-FontSize = 24;
-figNum = 0;
+fontSize = 16;
 pathToFig = '../report_src/figures/lsvc_matlab/';
+fig = 0;
 
 %% Data Preparation
 
@@ -23,7 +23,7 @@ for i = 1:randImagesN
     imshow(imSet(label).ImageLocation{randi(imSet(label).Count)});
     title(imSet(label).Description);
     ax = gca;
-    ax.FontSize = FontSize;
+    ax.FontSize = fontSize;
 end;
 
 saveas(fig, [pathToFig 'random_chars'] , 'epsc')
@@ -48,21 +48,21 @@ subplot(2,3,1:3); imshow(img);
 % Visualize the HOG features
 subplot(2,3,4);  
 plot(vis2x2); 
-title({'CellSize = [2 2]'; ['Feature length = ' num2str(length(hog_2x2))]});
+title({'Cell size = [2 2]'; ['Feature length = ' num2str(length(hog_2x2))]});
 subplot(2,3,5);
 ax = gca;
-ax.FontSize = FontSize;
+ax.FontSize = fontSize;
 
 plot(vis4x4); 
-title({'CellSize = [4 4]'; ['Feature length = ' num2str(length(hog_4x4))]});
+title({'Cell size = [4 4]'; ['Feature length = ' num2str(length(hog_4x4))]});
 subplot(2,3,6);
 ax = gca;
-ax.FontSize = FontSize;
+ax.FontSize = fontSize;
 
 plot(vis8x8); 
-title({'CellSize = [8 8]'; ['Feature length = ' num2str(length(hog_8x8))]});
-ax = gca;
-ax.FontSize = FontSize;
+title({'Cell size = [8 8]'; ['Feature length = ' num2str(length(hog_8x8))]});
+% ax = gca;
+% ax.FontSize = 10;
 
 saveas(fig, [pathToFig 'hog_features'] , 'epsc')
 
@@ -143,6 +143,11 @@ imNum = 2;
 [L] = slidingWindowAndPlot(DirTI, imNum, step, cellSize, classifier, confMat);
 
 fprintf('Done! \n')
+
+%% Calculate total error
+error = (1-sum(testLabels == predictedLabels)/length(testLabels));
+disp(['Total error: ' num2str(100*error) ' %.']);
+saveVar(error, 'error_matlab');
 
 %% References
 % [1] N. Dalal and B. Triggs, "Histograms of Oriented Gradients for Human
