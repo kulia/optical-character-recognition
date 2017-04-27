@@ -73,9 +73,7 @@ class ImageData():
 		path_tmp = file_handler.Path('../database/tmp/')
 		
 		n_sne = 6000
-		
-		
-		
+
 		# For working while dev
 		if 'agument_data' in self.case_list_:
 			file_handler.generate_chars74k_csv_database()
@@ -101,28 +99,35 @@ class ImageData():
 		return train_data, train_target, test_data, test_target
 
 
-def estimate_error(ImageData):
+def estimate_error_knn(ImageData, loop=False):
 	c = Colors()
 	
 	error_min = 1
 	n_pca_best = 0
 	n_neighbors_best = 0
-	
-	for n_pca in range(1, 100, 1):
-		for n_neighbors in range(1, 10, 1):
-			error = orc_nn.classify(ImageData.train_data, ImageData.train_target, ImageData.test_data, ImageData.test_target, n_pca=n_pca,
-			                        n_neighbors=n_neighbors)
-			
-			if error < error_min:
-				print(c.OKBLUE, 'Error:', round(100 * error, ndigits=2), '%. n_pca = ', n_pca, 'and n_neighbors = ',
-				      n_neighbors, c.ENDC)
-				error_min = error
-				n_pca_best = n_pca
-				n_neighbors_best = n_neighbors
-			else:
-				print('', 'Error:', round(100 * error, ndigits=2), '%. n_pca = ', n_pca, 'and n_neighbors = ',
-				      n_neighbors)
-	
+	if loop:
+		for n_pca in range(1, 65, 1):
+			for n_neighbors in range(1, 10, 1):
+				error = orc_nn.classify(ImageData.train_data, ImageData.train_target, ImageData.test_data, ImageData.test_target, n_pca=n_pca,
+				                        n_neighbors=n_neighbors)
+				
+				if error < error_min:
+					print(c.OKBLUE, 'Error:', round(100 * error, ndigits=2), '%. n_pca = ', n_pca, 'and n_neighbors = ',
+					      n_neighbors, c.ENDC)
+					error_min = error
+					n_pca_best = n_pca
+					n_neighbors_best = n_neighbors
+				else:
+					print('', 'Error:', round(100 * error, ndigits=2), '%. n_pca = ', n_pca, 'and n_neighbors = ',
+					      n_neighbors)
+	else:
+		n_pca = 60
+		n_neighbors = 5
+		
+		error = orc_nn.classify(ImageData.train_data, ImageData.train_target, ImageData.test_data,
+		                        ImageData.test_target, n_pca=n_pca, n_neighbors=n_neighbors)
+		print('', 'Error:', round(100 * error, ndigits=2), '%. n_pca = ', n_pca, 'and n_neighbors = ',
+		      n_neighbors)
 	
 	helpers.write_variable_to_latex(round(100 * error_min, ndigits=2), 'error')
 	helpers.write_variable_to_latex(round(n_pca_best), 'n_pca')
@@ -134,7 +139,7 @@ def main():
 	image_data = ImageData(preprocessing=True)
 	print('Loading time: ', time.time() - t0, 's')
 
-	estimate_error(image_data)
+	estimate_error_knn(image_data)
 	
 	# ocr_svc.optimize_svc(image_data)
 	#
