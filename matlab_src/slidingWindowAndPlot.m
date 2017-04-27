@@ -1,7 +1,7 @@
 function [L] = slidingWindowAndPlot(DirTI, imNum, step, cellSize, classifier, confMat)
 
 imTestSet = imageSet(DirTI);
-figure; imshow(imTestSet.ImageLocation{imNum});
+% figure; imshow(imTestSet.ImageLocation{imNum});
 I = imread(imTestSet.ImageLocation{imNum});
 % Apply sliding window approach and identify features
 
@@ -20,30 +20,44 @@ end;
 % Find the likelyhood of each letter to be present in each image
 [predictTestLabel,scores] = predict(classifier, featuresTest);
 
-maxScoresIm = max(scores);
-count = 0;
+caracter_detected=scores >= 0;
 
-for i = 1:length(maxScoresIm)
-    if maxScoresIm(i) < 0
-        continue;
-    else
-        count = count+1;
-        LableFound(count) = char(i+96);
-        C = coordXY(find(scores(:,i) == maxScoresIm(i)),:);
-        coord4Lable(count,:) = C(randi(size(C,1)),:);
-        position(count,:) = [(coord4Lable(count, 1)) (coord4Lable(count,2)) 20 20];
+maxScoresIm = max(scores);
+% disp(size(scores))
+count = 0;
+for j = 1:size(scores, 1)
+    for i = 1:size(scores, 2)
+    %     disp(['Label: ' predictTestLabel(i) '. Max score: ' num2str(maxScoresIm(i))])
+        if caracter_detected(j, i)
+            count = count+1;
+            LableFound(count) = char(i+96);
+%             disp(['Max score for ' char(i+96) ' is ' num2str(maxScoresIm(i))])
+%             disp(['Sizes: ' num2str(size(coordXY)) ' ' num2str([i, j])])
+            C = coordXY(j,:);
+            coord4Lable(count,:) = C(randi(size(C,1)),:);
+            position(count,:) = [(coord4Lable(count, 1)) (coord4Lable(count,2)) 20 20];
+        end;
     end;
 end;
 
 figure;
 
 for i = 1:count
-    subplot(1,count,i);
-    imshow(I(position(i,1):position(i,1)+20,position(i,2):position(i,2)+20));
-    cmPos = double(LableFound(i))-96;
-    confid(i) = confMat(cmPos,cmPos)/sum(confMat(cmPos,:))*100;
-    title(LableFound(i));
-    xlabel({round(confid(i)) '%'});
+%     subplot(1,count,i);
+%     subplot(1,5,i);
+%     imshow(I(position(i,1):position(i,1)+20,position(i,2):position(i,2)+20));
+    hold on;
+    imshow(I);
+    if ~strcmp(LableFound(i), 'i') || ~strcmp(LableFound(i), 'j')
+        drawSquare(position(i, 2), position(i, 1), 20, 'b', LableFound(i))
+%     cmPos = double(LableFound(i))-96;
+%     confid(i) = confMat(cmPos,cmPos)/sum(confMat(cmPos,:))*100;
+%     title(LableFound(i));
+%     xlabel({round(confid(i)) '%'});
+%     if i > 5
+%         break;
+%     end;
+    end
 end;
 
 L = LableFound;
