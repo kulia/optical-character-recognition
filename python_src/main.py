@@ -10,9 +10,9 @@ import helpers.file_handler as file_handler
 import preprocessing as pp
 
 from character_detection import character_detection
+from sklearn.metrics import accuracy_score
 
-from sklearn.decomposition import PCA
-
+from sklearn.decomposition import PCA 
 # from importlib import reload
 
 class Colors:
@@ -50,7 +50,7 @@ class ImageData():
 	def __init__(self, preprocessing=True, show_fig=False, debug=True):
 		# Private variables
 		self.case_list_ = ['agument_data', 'original', 'pick_and_save_subset', 'load_subset']
-		self.case_list_ = self.case_list_[1]
+		self.case_list_ = self.case_list_[:2]
 
 		# Public variables
 		self.path = file_handler.Path()
@@ -126,7 +126,7 @@ def estimate_error_knn(ImageData, loop=False):
 		
 		error = orc_nn.classify(ImageData.train_data, ImageData.train_target, ImageData.test_data,
 		                        ImageData.test_target, n_pca=n_pca, n_neighbors=n_neighbors)
-		print('', 'Error:', round(100 * error, ndigits=2), '%. n_pca = ', n_pca, 'and n_neighbors = ',
+		print('', 'Error with KNN:', round(100 * error, ndigits=2), '%. n_pca = ', n_pca, 'and n_neighbors = ',
 		      n_neighbors)
 	
 	helpers.write_variable_to_latex(round(100 * error_min, ndigits=2), 'error')
@@ -141,13 +141,11 @@ def main():
 
 	estimate_error_knn(image_data)
 	
-	# ocr_svc.optimize_svc(image_data)
-	#
-	# print('Prediction: ', time.time() - t0, 's')
-	#
-	# pca = PCA(n_components=1)
-	# pca_model = pca.fit(image_data.train_data)
-	# # character_detection(pca_model)
+	model = ocr_svc.optimize_svc(image_data)
+	y_pred = model.predict(image_data.test_data)
+	print('Accuracy on test set using LSVC:',
+		accuracy_score(image_data.test_target, y_pred))
+	
 	plt.show()
 				
 if __name__ == '__main__':

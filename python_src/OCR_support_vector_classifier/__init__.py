@@ -41,6 +41,7 @@ def optimize_svc(ImageData):
 	gsSVC.fit(ImageData.train_data, ImageData.train_target)
 	
 	print('Best score for train data:', np.round(100 * gsSVC.best_score_), '%')
+	return gsSVC
 	
 def set_models(ImageData):
 	models = {
@@ -52,10 +53,10 @@ def set_models(ImageData):
 		'hog_lsvc' : (
 			Pipeline([('hog' , HogSpecs(ImageData)) , ('clf', svm.SVC()) ]),
 			{
-				'hog__orientations' : [10],
-				'hog__pixels_per_cell' : [(5, 5)],
+				'hog__orientations' : [6],
+				'hog__pixels_per_cell' : [(4, 4)],
 				'hog__cells_per_block' : [(2, 2)],
-				'clf__C' : np.arange(1, 3, 0.1),
+				'clf__C' : np.arange(1, 2, 1),
 				'clf__kernel':['linear'],
 			}
 		)
