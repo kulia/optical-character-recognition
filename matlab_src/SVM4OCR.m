@@ -1,5 +1,7 @@
 close all, clear all, clc
 
+set(0,'defaultaxesfontname','times new roman'); % Set default font
+
 %% Data Preparation
 
 fprintf('Preparing dataset... \n')
