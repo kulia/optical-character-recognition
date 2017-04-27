@@ -27,8 +27,6 @@ def standardized_augmentation(data, display=False):
 	
 	data_0 = image_helpers.convert_to_sensor_values(data)
 
-	data = normalize(data)
-
 	if display:
 		plt.figure()
 		image_helpers.show_image(data_0[0])
@@ -54,14 +52,6 @@ def standardized_augmentation(data, display=False):
 		plt.draw()
 	
 	data = normalize(data)
-	# data = histogram_of_oriented_gradients(data)
-	#
-	# if display:
-	# 	plt.figure()
-	# 	image_helpers.show_image(data[0])
-	# 	plt.savefig(path.figure + 'pp/hog.pdf', format='pdf', dpi=1000)
-	# 	plt.draw()
-
 	return data
 
 
@@ -106,7 +96,7 @@ def histogram_of_oriented_gradients(data_images):
 		else:
 			print('Wrong size', data_image.shape)
 		
-		fd, data_image = hog(data_image, orientations=2, pixels_per_cell=(2, 2),
+		fd, data_image = hog(data_image, orientations=10, pixels_per_cell=(5, 5),
 		                    cells_per_block=(2, 2), visualise=True)
 		
 		data_image = np.array(data_image).flatten()

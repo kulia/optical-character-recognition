@@ -1,7 +1,16 @@
 from sklearn.decomposition import PCA
 import OCR_nearest_neighbors.classification as kNN
 
-def classify(train_data, train_target, test_data, test_target, n_pca=49, n_neighbors=4):
+def classify(train_data, train_target, test_data, test_target, n_pca=49, n_neighbors=4, display=False):
+	
+	train_data = histogram_of_oriented_gradients(train_data)
+
+	if display:
+		plt.figure()
+		image_helpers.show_image(data[0])
+		plt.savefig(path.figure + 'pp/hog.pdf', format='pdf', dpi=1000)
+		plt.draw()
+	
 	pca = PCA(n_components=n_pca)
 	pca_model = pca.fit(train_data)
 	pca_train = pca_model.transform(train_data)

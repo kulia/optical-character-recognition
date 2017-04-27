@@ -2,7 +2,8 @@ import matplotlib.pyplot as plt
 import numpy as np
 	
 def show_image(image, colorbar=False):
-	image = image.reshape((20, 20))
+	if len(image) == 400:
+		image = image.reshape((20, 20))
 	cax = plt.imshow(image, cmap=plt.get_cmap('BrBG'))
 	
 	plt.xticks([])

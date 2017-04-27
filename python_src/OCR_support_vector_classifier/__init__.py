@@ -45,7 +45,6 @@ class HogSpecs(BaseEstimator):
 		return np.array(result)
 		
 def optimize_svc(ImageData):
-	
 	model, parameters = set_models(ImageData)['hog_lsvc']
 		
 	gsSVC = GridSearchCV(model, param_grid=parameters, n_jobs=-1, verbose=4)

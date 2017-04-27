@@ -9,6 +9,10 @@ import helpers
 import helpers.file_handler as file_handler
 import preprocessing as pp
 
+from character_detection import character_detection
+
+from sklearn.decomposition import PCA
+
 # from importlib import reload
 
 class Colors:
@@ -98,38 +102,25 @@ class ImageData():
 
 
 def estimate_error(ImageData):
-	c = Colors
+	c = Colors()
 	
 	error_min = 1
 	n_pca_best = 0
 	n_neighbors_best = 0
 	
-	
-	ImageData.train_data = pp.standardized_augmentation(ImageData.train_data)
-	ImageData.test_data = pp.standardized_augmentation(ImageData.test_data)
-	
-	# for _ in range(5):
-	# 	index = int(np.round( len(train_data) * random() ))
-	# 	sample_image = train_data[index]
-	# 	sample_image = pp.standardized_augmentation(np.array([sample_image]))
-	# 	sample_image = sample_image.reshape((20, 20))
-	# 	plt.figure()
-	# 	image_helpers.show_image(sample_image, colorbar=True)
-	# 	plt.title(train_target[index])
-	
-	for n_pca in range(30, 70, 1):
+	for n_pca in range(1, 100, 1):
 		for n_neighbors in range(1, 10, 1):
 			error = orc_nn.classify(ImageData.train_data, ImageData.train_target, ImageData.test_data, ImageData.test_target, n_pca=n_pca,
 			                        n_neighbors=n_neighbors)
 			
 			if error < error_min:
-				print(c.OKBLUE, 'Error ', round(100 * error, ndigits=2), '% when n_pca = ', n_pca, 'and n_neighbors = ',
+				print(c.OKBLUE, 'Error:', round(100 * error, ndigits=2), '%. n_pca = ', n_pca, 'and n_neighbors = ',
 				      n_neighbors, c.ENDC)
 				error_min = error
 				n_pca_best = n_pca
-				n_neighbors_best = n_neighbors_best
+				n_neighbors_best = n_neighbors
 			else:
-				print('', 'Error ', round(100 * error, ndigits=2), '% when n_pca = ', n_pca, 'and n_neighbors = ',
+				print('', 'Error:', round(100 * error, ndigits=2), '%. n_pca = ', n_pca, 'and n_neighbors = ',
 				      n_neighbors)
 	
 	
@@ -140,17 +131,18 @@ def estimate_error(ImageData):
 
 def main():
 	t0 = time.time()
-	image_data = ImageData()
+	image_data = ImageData(preprocessing=True)
 	print('Loading time: ', time.time() - t0, 's')
+
+	estimate_error(image_data)
 	
-	t0 = time.time()
-	
-	# estimate_error(image_data)
-	
-	ocr_svc.optimize_svc(image_data)
-	
-	print('Prediction: ', time.time() - t0, 's')
-	
+	# ocr_svc.optimize_svc(image_data)
+	#
+	# print('Prediction: ', time.time() - t0, 's')
+	#
+	# pca = PCA(n_components=1)
+	# pca_model = pca.fit(image_data.train_data)
+	# # character_detection(pca_model)
 	plt.show()
 				
 if __name__ == '__main__':
