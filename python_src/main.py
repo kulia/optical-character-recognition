@@ -136,7 +136,7 @@ def estimate_error_knn(ImageData, loop=False):
 
 def main():
 	t0 = time.time()
-	image_data = ImageData(preprocessing=True)
+	image_data = ImageData(preprocessing=False)
 	print('Loading time: ', time.time() - t0, 's')
 
 	estimate_error_knn(image_data)

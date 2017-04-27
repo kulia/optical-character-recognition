@@ -27,7 +27,6 @@ def character_detection(pca_model):
 	image_1_bool = image_1 < 0.99999
 	
 	
-	
 	window_size = 20
 	non_overlap = 2
 	
@@ -47,12 +46,9 @@ def character_detection(pca_model):
 			if pca_val > -5:
 				plt.scatter(j + 10, i + 10, c='r')
 				print('Window num ', i, j, '- Sum of cell: ', window_sum)
-			#
-			# if window_sum > 190:
-			# 	print('Window num ', i, j, '- Sum of cell: ', window_sum)
-			# 	# plt.scatter(j+10, i+10, c='r')
-			# 	print(c.OKBLUE, '! PCA: ', pca_model.transform(np.array(window).flatten()), c.ENDC)
-			# else:
-			# 	print(c.ENDC, 'PCA: ', pca_model.transform(np.array(window).flatten()))
-			#
-			
+
+			if window_sum > 190:
+				print('Window num ', i, j, '- Sum of cell: ', window_sum)
+				print(c.OKBLUE, 'PCA: ', pca_model.transform(np.array(window).flatten()), c.ENDC)
+			else:
+				print(c.ENDC, 'PCA: ', pca_model.transform(np.array(window).flatten()))
