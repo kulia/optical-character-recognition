@@ -38,7 +38,29 @@ which was higher than the allowed error of this project. We, therefore, continue
 \subsection{Linear Support Vector Classifier}
 Support Vector Machines (SVM) is a tool often applied to classification, clustering and regression \cite{svm1} as well as data mining \cite{svn_dm}. A Linear Support Vector Classifier (LSVC) implemented is a supervised learning model for binary classification \cite{svm}. A Multiclass LSVC was used in this example, which means that the 26 classes are reduced to a set of binary classifications.
 
-Each binary LSVC classification maps the training data's separate categories into points in space, and linearly divide them by an apparent gap. The test data is assigned to the same space and classified based on what side of the division line the data appears. Support Vector Classifiers can perform classify non-linear classification by using kernel tricks, i.e. transforming the data. However, kernel tricks were not applied in this project.
+Each binary LSVC classification maps the training data's separate categories
+into points in space, and linearly divide them by an apparent gap. The test data
+is assigned to the same space and classified based on what side of the division
+line the data appears. Support Vector Classifiers can perform classify
+non-linear classification by using kernel tricks, i.e. transforming the data.
+However, kernel tricks were not applied in this project. The best parameters for
+this project are listed in \autoref{tab:params}
+
+\begin{table}
+\begin{center}
+  \caption{Parameters for pipeline consisting of HOG and LSVC}
+  \label{tab:params}
+  \begin{tabular}{ l l }
+  \hline
+  Parameter name & Value \\ 
+  \hline
+  HOG orientations & $\vari{hog_orientations}$ \\  
+  HOG Pixels per cell & $\vari{hog_pix_per_cell}$ \\
+  HOG cells per block & $\vari{hog_cells_per_block}$ \\
+  LSVC C & $\vari{svm_c}$ \\
+  \end{tabular}
+\end{center}
+\end{table}
 
 
 \begin{figure}
