@@ -7,7 +7,7 @@ This project is presenting two approaches to Optical Character Recognition (OCR)
 
 ![](https://github.com/kulia/optical-character-recognition/blob/master/report_src/figures/model-eps-converted-to.pdf)
 
-The data is loaded from the Char74k-Lite dataset and diveded, at random, into two databases. 80 % is selected as the training set, and 20 % is the test set. The data is then preprocessed. A model is trained on the training set, before the model is passed to the classifier. The system output is the classifier error/
+The data is loaded from the Char74k-Lite dataset and diveded, at random, into two databases. 80 % is selected as the training set, and 20 % is the test set. The data is then preprocessed. A model is trained on the training set, before the model is passed to the classifier. The system output is the classifier error.
 
 We implemented the Linear Support Vector Classifier in both Python and Matlab. The Python version was used to optimize detection parameters with grid search and calculate the overall error, while the Matlab version uses inheret high level Matlab features for displaying data, and its superb matrix handling.
 
