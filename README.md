@@ -5,7 +5,7 @@ Semester project in the NTNU course TDT4173 Machine Learning and CBR.
 
 This project is presenting two approaches to Optical Character Recognition (OCR). The approaches applied are _k_-Nearest Neighbor Classifier and Linear Support Vector Classifier. A general overview of the implementation is shown in the figure below
 
-![](https://github.com/kulia/optical-character-recognition/blob/master/report_src/figures/model-eps-converted-to.pdf)
+![](https://github.com/kulia/optical-character-recognition/blob/master/report_src/figures/model.png)
 
 The data is loaded from the Char74k-Lite dataset and diveded, at random, into two databases. 80 % is selected as the training set, and 20 % is the test set. The data is then preprocessed. A model is trained on the training set, before the model is passed to the classifier. The system output is the classifier error.
 
